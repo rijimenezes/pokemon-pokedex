@@ -2,16 +2,17 @@
   <!-- titulo -->
   <h1 class="p-title">Listado de Pokemo</h1>
   <!-- buscador/boton nuevo -->
-  <div class="table-toolbar">
-    <app-search></app-search>
+  <div class="table-toolbar p-mb-2">
+    <app-search *ngIf="!!pokemons.length"></app-search>
     <app-button
       text="Nuevo"
       iconName="ri-add-line"
       (handleClick)="onNewPokemon()"
+      style="margin-left: auto;"
     ></app-button>
   </div>
   <!-- listado -->
-  <div class="p-table-responsive p-mb-2">
+  <div class="p-table-responsive p-mb-2" *ngIf="!!pokemons.length">
     <table class="p-table">
       <thead>
         <tr>
@@ -61,7 +62,7 @@
   <!-- /FIN LISTADO -->
 
   <!-- formulario -->
-  <ng-container *ngIf="showForm">
+  <ng-container *ngIf="(showForm || !pokemons.length) && !loadingPokemons">
     <app-pokemon-form
       [pokemon]="selectedPokemon"
       (cancel)="cancelSavePokemon()"

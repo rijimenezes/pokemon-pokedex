@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { debounceTime, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { Pokemon } from '../models/pokemon.model';
 import { ApiService } from './api.service';
-const ID_AUTHOR = 6;
+const ID_AUTHOR = 1;
 
 @Injectable({
   providedIn: 'root',

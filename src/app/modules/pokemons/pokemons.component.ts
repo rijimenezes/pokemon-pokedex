@@ -14,6 +14,8 @@ export class PokemonsComponent implements OnInit {
   selectedPokemon?: Pokemon | null;
   showForm = false;
 
+  loadingPokemons = true;
+
   constructor(
     private pokemonService: PokemonService,
     private formRequestSrv: FormRequestService
@@ -25,7 +27,9 @@ export class PokemonsComponent implements OnInit {
 
   private async loadPokemons() {
     try {
+      this.loadingPokemons = true;
       const res = await lastValueFrom(this.pokemonService.findAll());
+      this.loadingPokemons = false;
       if (res.success == false) {
         console.error(res);
         return;
