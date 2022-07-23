@@ -1,0 +1,26 @@
+.p-pokemon-form-section{
+  width: 50%;
+}
+.p-form{
+  display: flex;
+}
+
+.p-buttons-form{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.p-card{
+  border: 2px solid var(--gray);
+  padding: 10px;
+}
+@media (max-width: 768px) {
+  .p-pokemon-form-section{
+    width: 100%;
+  }
+  .p-form{
+    display: block;
+  }
+}

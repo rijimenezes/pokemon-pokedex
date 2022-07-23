@@ -1,0 +1,10 @@
+section{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0 10px;
+}
+.p-input-range{
+  flex: 1;
+}

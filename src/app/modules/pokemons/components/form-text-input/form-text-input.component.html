@@ -1,0 +1,13 @@
+<div class="p-form-group" *ngIf="control">
+  <label [for]="controlName" class="p-input-label">{{ textLabel }}</label>
+  <input
+    type="text"
+    class="p-input"
+    [formControl]="control"
+    [id]="controlName"
+    [placeholder]="placeHolder"
+    [ngClass]="{
+      invalid: control.invalid && (control.touched || control.dirty)
+    }"    
+  />
+</div>

@@ -1,0 +1,15 @@
+<div class="p-form-group" *ngIf="control">
+  <label [for]="controlName" class="p-input-label-range">{{ textLabel }}</label>
+  <section>
+    <span>{{ control.value }}</span>
+    <input
+      type="range"
+      [min]="min"
+      [max]="max"
+      class="p-input-range"
+      [formControl]="control"
+      [id]="controlName"
+    />
+    <span>{{ max }}</span>
+  </section>
+</div>

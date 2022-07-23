@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PokemonItemComponent } from './pokemon-item.component';
+import { FormTextInputComponent } from './form-text-input.component';
 
-describe('PokemonItemComponent', () => {
-  let component: PokemonItemComponent;
-  let fixture: ComponentFixture<PokemonItemComponent>;
+describe('FormTextInputComponent', () => {
+  let component: FormTextInputComponent;
+  let fixture: ComponentFixture<FormTextInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PokemonItemComponent ]
+      declarations: [ FormTextInputComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PokemonItemComponent);
+    fixture = TestBed.createComponent(FormTextInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

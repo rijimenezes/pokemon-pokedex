@@ -1,0 +1,27 @@
+.container {
+  max-width: 85vw;
+  padding: 20px 0;
+  margin: auto;
+}
+
+
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.p-table {
+  margin-top: 1.5rem;
+}
+
+td > img {
+  max-width: 50px;
+}
+
+.p-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}

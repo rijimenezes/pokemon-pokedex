@@ -1,0 +1,46 @@
+/* INPUTS */
+.p-input {
+  font-size: 1rem;
+  padding: 5px 10px;
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid var(--gray);
+}
+.p-input:focus-visible {
+  border-color: var(--purple);
+}
+
+.p-form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  min-height: 43px;
+}
+.p-input-label {
+  width: 22%;
+  text-align: right;
+  padding: 0 5px;
+}
+.p-input-label-range {
+  width: 24%;
+  text-align: right;
+}
+
+.p-input.invalid {
+  border-color: var(--danger);
+}
+
+.p-input-range {
+  accent-color: var(--purple);
+}
+
+@media (max-width: 768px) {
+  .p-form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .p-input-label,
+  .p-input {
+    width: 100%;
+  }
+}

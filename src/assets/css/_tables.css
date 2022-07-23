@@ -1,0 +1,21 @@
+.p-table {
+  min-width: 100%;
+}
+.p-table,
+.p-table tr,
+.p-table td,
+.p-table th {
+  border: 2px solid var(--gray);
+  border-collapse: collapse;
+}
+.p-table th {
+  color: var(--dark);
+  padding: 10px 0;
+}
+.p-table td {
+  color: var(--dark);
+  padding: 10px;
+}
+.p-table-responsive{
+  overflow-x: scroll;
+}

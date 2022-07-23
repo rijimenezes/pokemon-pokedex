@@ -1,0 +1,10 @@
+<button
+  class="p-button"
+  [class]="textColorClass + ' ' + backgroundColorClass"
+  [disabled]="isDisabled"
+  type="button"
+  (click)="onClick()"
+>
+  <i [class]="iconName" class="p-button-icon"></i>
+  <span>{{ text }}</span>
+</button>

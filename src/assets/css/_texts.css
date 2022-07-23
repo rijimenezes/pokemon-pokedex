@@ -1,0 +1,10 @@
+.p-text-center {
+  text-align: center;
+}
+
+.p-title {
+  font-size: 18px;
+  padding: 10px 0;
+  font-weight: 600;
+  color: var(--dark);
+}

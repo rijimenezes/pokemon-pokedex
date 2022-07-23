@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ButtonComponent } from './components/button/button.component';
+import { SearchComponent } from './components/search/search.component';
 
 import { PokemonsComponent } from './pokemons.component';
 
@@ -8,7 +10,7 @@ describe('PokemonsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PokemonsComponent ]
+      declarations: [ PokemonsComponent, SearchComponent, ButtonComponent ]
     })
     .compileComponents();
   });

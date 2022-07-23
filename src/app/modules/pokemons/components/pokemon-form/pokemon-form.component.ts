@@ -1,15 +1,84 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { Pokemon } from 'src/app/core/models/pokemon.model';
+import { FormRequestService } from '../../services/form-request.service';
 
 @Component({
   selector: 'app-pokemon-form',
   templateUrl: './pokemon-form.component.html',
-  styleUrls: ['./pokemon-form.component.css']
+  styleUrls: ['./pokemon-form.component.css'],
 })
-export class PokemonFormComponent implements OnInit {
+export class PokemonFormComponent implements OnInit, OnChanges {
+  @Input() pokemon?: Pokemon | null;
 
-  constructor() { }
+  @Output() cancel: EventEmitter<void> = new EventEmitter();
+  @Output() save: EventEmitter<Pokemon> = new EventEmitter();
 
-  ngOnInit(): void {
+  name: FormControl;
+  image: FormControl;
+  attack: FormControl;
+  defense: FormControl;
+  hp: FormControl;
+  type: FormControl;
+
+  focusName = true;
+
+  savinPokemon = false;
+
+  saveButtonIcon = 'ri-save-2-fill';
+
+  constructor(private formRequestSrv: FormRequestService) {
+    this.name = new FormControl(null, Validators.required);
+    this.image = new FormControl(null, [
+      Validators.required,
+      Validators.pattern(/^(ftp|http|https):\/\/[^ "]+$/),
+    ]);
+    this.attack = new FormControl(0, Validators.required);
+    this.defense = new FormControl(0, Validators.required);
+    this.hp = new FormControl(0, Validators.required);
+    this.type = new FormControl(null, Validators.required);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // asignar valores del pokemon a editar
+    if (this.pokemon) {
+      this.name.setValue(this.pokemon.name);
+      this.image.setValue(this.pokemon.image);
+      this.attack.setValue(this.pokemon.attack);
+      this.defense.setValue(this.pokemon.defense);
+      this.type.setValue(this.pokemon.type);
+      this.hp.setValue(this.pokemon.hp);
+      // activar focus para el input de nombre
+      this.focusName = false;
+      setTimeout(() => {
+        this.focusName = true;
+      });
+    }
+  }
+
+  ngOnInit(): void {}
+
+  onSave() {
+    const pokemon: Pokemon = {
+      attack: this.attack.value,
+      defense: this.defense.value,
+      image: this.image.value,
+      hp: this.hp.value,
+      name: this.name.value,
+      type: this.type.value,
+    };
+    this.save.emit(pokemon)
+    this.savinPokemon = true;
+    this.saveButtonIcon = 'ri-loader-4-line';
+  }
 }

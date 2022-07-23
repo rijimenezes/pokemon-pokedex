@@ -1,1 +1,74 @@
-<p>pokemon-form works!</p>
+<section class="p-card">
+  <h1 class="p-title p-text-center p-mb-2">Nuevo Pokemon</h1>
+
+  <!-- formulario -->
+  <form class="p-form">
+    <!-- parte izq -->
+    <section class="p-pokemon-form-section">
+      <!-- nombre -->
+      <app-form-text-input
+        [control]="name"
+        controlName="name"
+        textLabel="Nombre:"
+        [focus]="focusName"
+      ></app-form-text-input>
+      <!-- imagen -->
+      <app-form-text-input
+        [control]="image"
+        controlName="image"
+        textLabel="Imagen:"
+        placeHolder="url"
+      ></app-form-text-input>
+      <!-- Tipo -->
+      <app-form-text-input
+        [control]="type"
+        controlName="type"
+        textLabel="Tipo:"
+      ></app-form-text-input>
+    </section>
+    <!-- /FIN PARTE IZQ -->
+    <!-- parte der -->
+    <section class="p-pokemon-form-section">
+      <!-- Ataque -->
+      <app-form-range-input
+        [control]="attack"
+        controlName="attack"
+        textLabel="Ataque:"
+        [min]="-100"
+        [max]="100"
+      ></app-form-range-input>
+      <!-- Defensa -->
+      <app-form-range-input
+        [control]="defense"
+        controlName="defense"
+        textLabel="Defensa:"
+        [min]="-100"
+        [max]="100"
+      ></app-form-range-input>
+
+      <!-- Vida -->
+      <app-form-range-input
+        [control]="hp"
+        controlName="hp"
+        textLabel="Vida:"
+        [min]="-100"
+        [max]="100"
+      ></app-form-range-input>
+    </section>
+    <!-- ./FIN PARTE DER -->
+  </form>
+
+  <div class="p-buttons-form">
+    <app-button
+      text="Guardar"
+      [iconName]="saveButtonIcon"
+      [isDisabled]="name.invalid || image.invalid || type.invalid || savinPokemon"
+      (handleClick)="onSave()"
+    ></app-button>
+    <app-button
+      text="Cancelar"
+      iconName="ri-close-line"
+      (handleClick)="cancel.emit()"
+    ></app-button>
+  </div>
+</section>

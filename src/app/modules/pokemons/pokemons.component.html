@@ -1,1 +1,71 @@
-<p>pokemons works!</p>
+<div class="container">
+  <!-- titulo -->
+  <h1 class="p-title">Listado de Pokemo</h1>
+  <!-- buscador/boton nuevo -->
+  <div class="table-toolbar">
+    <app-search></app-search>
+    <app-button
+      text="Nuevo"
+      iconName="ri-add-line"
+      (handleClick)="onNewPokemon()"
+    ></app-button>
+  </div>
+  <!-- listado -->
+  <div class="p-table-responsive p-mb-2">
+    <table class="p-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Imagen</th>
+          <th>Ataque</th>
+          <th>Defensa</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let pokemon of pokemons">
+          <tr>
+            <td>
+              <span>{{ pokemon.name }}</span>
+            </td>
+            <td class="p-text-center">
+              <img [src]="pokemon.image" [alt]="pokemon.name" />
+            </td>
+            <td>
+              <span>{{ pokemon.attack }}</span>
+            </td>
+            <td>
+              <span>{{ pokemon.defense }}</span>
+            </td>
+            <td class="p-text-center">
+              <div class="p-actions">
+                <app-button
+                  iconName="ri-edit-line"
+                  backgroundColorClass=""
+                  textColorClass="p-text-purple"
+                  (handleClick)="onEditPokemon(pokemon)"
+                ></app-button>
+                <app-button
+                  iconName="ri-delete-bin-2-line"
+                  backgroundColorClass=""
+                  textColorClass="p-text-purple"
+                  (handleClick)="onDeletePokemon(pokemon)"
+                ></app-button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <!-- /FIN LISTADO -->
+
+  <!-- formulario -->
+  <ng-container *ngIf="showForm">
+    <app-pokemon-form
+      [pokemon]="selectedPokemon"
+      (cancel)="cancelSavePokemon()"
+      (save)="onSavePokemon($event)"
+    ></app-pokemon-form>
+  </ng-container>
+</div>

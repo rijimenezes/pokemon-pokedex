@@ -1,6 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'assets/remix-icons/remixicon';
+@import 'assets/css/_inputs';
+@import 'assets/css/_buttons';
+@import 'assets/css/_tables';
+@import 'assets/css/_texts';
+
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+:root{
+  --purple: #635feb;
+  --light-purple: hsl(241, 84%, 70%);
+  --gray: #c8cccf;
+  --dark-gray: #7d8c94;
+  --danger: #b33333;
+  --dark: #2d3740;
+}
+
+.p-mb-2{
+  margin-bottom: 1.25rem;
+}
+.p-actions button{
+  padding: 0;
+}
+
+.ri-loader-4-line {
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
