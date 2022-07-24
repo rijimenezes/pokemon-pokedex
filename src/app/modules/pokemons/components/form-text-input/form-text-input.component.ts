@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -8,19 +8,20 @@ import { FormControl } from '@angular/forms';
 })
 export class FormTextInputComponent implements OnChanges {
 
-  @Input() control?: FormControl;
+  @Input() control: FormControl;
   @Input() textLabel: string;
   @Input() controlName: string;
   @Input() placeHolder: string;
   @Input() focus: boolean;
 
   constructor() { 
+    this.control = new FormControl();
     this.textLabel = '';
     this.controlName = '';
     this.placeHolder = '';
     this.focus = false;
   }
-  ngOnChanges( changes: SimpleChanges ): void {
+  ngOnChanges(): void {
     // aplicar focus a un input
     if(this.focus && this.controlName){
       setTimeout(() => {        

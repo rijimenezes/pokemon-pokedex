@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -6,17 +6,20 @@ import { FormControl } from '@angular/forms';
   templateUrl: './form-range-input.component.html',
   styleUrls: ['./form-range-input.component.css']
 })
-export class FormRangeInputComponent implements OnInit {
+export class FormRangeInputComponent {
 
-  @Input() control?: FormControl;
-  @Input() textLabel?: string;
-  @Input() controlName?: string;
-  @Input() min?: number;
-  @Input() max?: number;
+  @Input() control: FormControl;
+  @Input() textLabel: string;
+  @Input() controlName: string;
+  @Input() min: number;
+  @Input() max: number;
   
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() { 
+    this.controlName = '';
+    this.textLabel = '';
+    this.min = 0;
+    this.max = 100;
+    this.control = new FormControl();
   }
 
 }

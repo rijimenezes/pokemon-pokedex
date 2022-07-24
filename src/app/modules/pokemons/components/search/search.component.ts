@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent  {
 
   @Input() searchText?: Subject<string>;
 
@@ -14,12 +14,7 @@ export class SearchComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {    
-  }
-
   onSearch(search: string){
-    console.log({search});
-    
     this.searchText?.next(search);
   }
 

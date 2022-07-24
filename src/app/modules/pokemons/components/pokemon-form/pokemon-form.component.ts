@@ -1,13 +1,9 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
-  SimpleChanges,
-  ViewChild,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Pokemon } from 'src/app/core/models/pokemon.model';
@@ -17,8 +13,8 @@ import { Pokemon } from 'src/app/core/models/pokemon.model';
   templateUrl: './pokemon-form.component.html',
   styleUrls: ['./pokemon-form.component.css'],
 })
-export class PokemonFormComponent implements OnInit, OnChanges {
-  @Input() pokemon?: Pokemon | null;
+export class PokemonFormComponent implements OnChanges {
+  @Input() pokemon: Pokemon | null;
 
   @Output() cancel: EventEmitter<void> = new EventEmitter();
   @Output() save: EventEmitter<Pokemon> = new EventEmitter();
@@ -32,11 +28,12 @@ export class PokemonFormComponent implements OnInit, OnChanges {
 
   focusName = true;
 
-  savinPokemon = false;
+  savingPokemon = false;
 
   saveButtonIcon = 'ri-save-2-fill';
 
   constructor() {
+    this.pokemon = null;
     this.name = new FormControl(null, Validators.required);
     this.image = new FormControl(null, [
       Validators.required,
@@ -48,7 +45,7 @@ export class PokemonFormComponent implements OnInit, OnChanges {
     this.type = new FormControl(null, Validators.required);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     // asignar valores del pokemon a editar
     if (this.pokemon) {
       this.name.setValue(this.pokemon.name);
@@ -65,8 +62,6 @@ export class PokemonFormComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit(): void {}
-
   onSave() {
     const pokemon: Pokemon = {
       attack: this.attack.value,
@@ -77,7 +72,7 @@ export class PokemonFormComponent implements OnInit, OnChanges {
       type: this.type.value,
     };
     this.save.emit(pokemon)
-    this.savinPokemon = true;
+    this.savingPokemon = true;
     this.saveButtonIcon = 'ri-loader-4-line';
   }
 }

@@ -10,7 +10,7 @@ import { Pokemon } from 'src/app/core/models/pokemon.model';
 })
 export class PokemonsComponent implements OnInit {
   pokemons: Pokemon[] = [];
-  selectedPokemon?: Pokemon | null;
+  selectedPokemon: Pokemon | null = null;
   showForm = false;
 
   loadingPokemons = true;
@@ -21,22 +21,28 @@ export class PokemonsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPokemons();
-    this.searchText.subscribe({
-      next: (text) => this.loadingPokemons = true
-    })
-    this.pokemonService.search(this.searchText).subscribe({
-      next: res =>{
-        console.log(res);
-        
+    this.setLoadingSearch();
+    this.loadPokemonsBySearch();
+  }
+
+  loadPokemonsBySearch() {
+    return this.pokemonService.search(this.searchText).subscribe({
+      next: (res) => {
         this.updatePokemonsList(res);
-      }
-    })
+      },
+    });
+  }
+
+  setLoadingSearch() {
+    return this.searchText.subscribe({
+      next: (text) => (this.loadingPokemons = true),
+    });
   }
 
   /**
-   * Carga los pokemons desde el servicio Backend   
+   * Carga los pokemons desde el servicio Backend
    */
-  private async loadPokemons() {
+  async loadPokemons() {
     try {
       this.loadingPokemons = true;
       const res = await lastValueFrom(this.pokemonService.findAll());
@@ -45,10 +51,10 @@ export class PokemonsComponent implements OnInit {
       console.error(error);
     }
   }
-  private updatePokemonsList(requestResult: any){
+
+  updatePokemonsList(requestResult: any) {
     this.loadingPokemons = false;
     if (requestResult.success == false) {
-      console.error(requestResult);
       return;
     }
     this.pokemons = requestResult;
@@ -84,12 +90,13 @@ export class PokemonsComponent implements OnInit {
   /**
    * Eliminar un pokemon del listado
    * @param pokemon pokemon a eliminar
+   * @param showConfirm pide confirmacion mediante alerta
    */
-  async onDeletePokemon(pokemon: Pokemon) {
+  async onDeletePokemon(pokemon: Pokemon, showConfirm = true) {
     // solicitar confirmacion
-    const confirmResult = confirm(
-      `¿Está seguro de eliminar al pokemon: ${pokemon.name}?`
-    );
+    const confirmResult = showConfirm
+      ? confirm(`¿Está seguro de eliminar al pokemon: ${pokemon.name}?`)
+      : true;
 
     if (confirmResult) {
       const pokemonToDeleteIndex = this.pokemons.findIndex(
@@ -135,7 +142,7 @@ export class PokemonsComponent implements OnInit {
    * @param pokemonName Nombre del pokemon a validar
    * @returns true si el pokemon ya esta en el listado, false si no se encuentra al pokemon
    */
-  private validateDuplicatedPokemon(pokemonName: string): boolean {
+  validateDuplicatedPokemon(pokemonName: string): boolean {
     return !!this.pokemons.find((pokemon) => pokemon.name === pokemonName);
   }
 
@@ -144,7 +151,7 @@ export class PokemonsComponent implements OnInit {
    * @param pokemon Datos del pokemon a crear
    * @returns promesa con la respuesta del Backend
    */
-  private createPokemon(pokemon: Pokemon) {
+  createPokemon(pokemon: Pokemon) {
     return lastValueFrom(this.pokemonService.create(pokemon));
   }
 
@@ -154,7 +161,7 @@ export class PokemonsComponent implements OnInit {
    * @param pokemon Datos actualizados del pokemon
    * @returns promesa con la respuesta del Backend
    */
-  private updatePokemon(pokemonId: number, pokemon: Pokemon) {
+  updatePokemon(pokemonId: number, pokemon: Pokemon) {
     return lastValueFrom(this.pokemonService.update(pokemonId, pokemon));
   }
 }

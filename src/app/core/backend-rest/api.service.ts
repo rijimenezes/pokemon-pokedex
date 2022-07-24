@@ -33,9 +33,6 @@ export class ApiService {
     const options: { headers: HttpHeaders; params?: HttpParams } = {
       headers: this.headers,
     };
-    console.log(params);
-    console.log(body);
-    
     if (params) {
       let localParams = new HttpParams();
       Object.keys(params).forEach((paramKey: string) => {

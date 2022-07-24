@@ -1,5 +1,5 @@
 <div class="p-form-group" *ngIf="control">
-  <label [for]="controlName" class="p-input-label-range">{{ textLabel }}</label>
+  <label [for]="controlName" class="p-input-label-range" [id]="'label'">{{ textLabel }}</label>
   <section>
     <span>{{ control.value }}</span>
     <input
