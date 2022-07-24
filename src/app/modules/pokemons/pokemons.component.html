@@ -1,9 +1,9 @@
 <div class="container">
   <!-- titulo -->
-  <h1 class="p-title">Listado de Pokemo</h1>
+  <h1 class="p-title">Listado de Pokemon</h1>
   <!-- buscador/boton nuevo -->
   <div class="table-toolbar p-mb-2">
-    <app-search *ngIf="!!pokemons.length"></app-search>
+    <app-search [searchText]="searchText"></app-search>
     <app-button
       text="Nuevo"
       iconName="ri-add-line"

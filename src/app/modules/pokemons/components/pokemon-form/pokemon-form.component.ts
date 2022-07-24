@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Pokemon } from 'src/app/core/models/pokemon.model';
-import { FormRequestService } from '../../services/form-request.service';
 
 @Component({
   selector: 'app-pokemon-form',
@@ -37,7 +36,7 @@ export class PokemonFormComponent implements OnInit, OnChanges {
 
   saveButtonIcon = 'ri-save-2-fill';
 
-  constructor(private formRequestSrv: FormRequestService) {
+  constructor() {
     this.name = new FormControl(null, Validators.required);
     this.image = new FormControl(null, [
       Validators.required,

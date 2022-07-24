@@ -27,7 +27,7 @@
   padding: 0;
 }
 
-.ri-loader-4-line {
+.ri-loader-4-line, .spin {
   animation: spin 800ms linear infinite;
 }
 

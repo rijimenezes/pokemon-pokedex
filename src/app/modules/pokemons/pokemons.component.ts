@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
+import { lastValueFrom, Observable, Subject } from 'rxjs';
 import { PokemonService } from 'src/app/core/backend-rest/pokemon.service';
 import { Pokemon } from 'src/app/core/models/pokemon.model';
-import { FormRequestService } from './services/form-request.service';
 
 @Component({
   selector: 'app-pokemons',
@@ -16,30 +15,44 @@ export class PokemonsComponent implements OnInit {
 
   loadingPokemons = true;
 
-  constructor(
-    private pokemonService: PokemonService,
-    private formRequestSrv: FormRequestService
-  ) {}
+  searchText: Subject<string> = new Subject();
+
+  constructor(private pokemonService: PokemonService) {}
 
   ngOnInit(): void {
     this.loadPokemons();
+    this.searchText.subscribe({
+      next: (text) => this.loadingPokemons = true
+    })
+    this.pokemonService.search(this.searchText).subscribe({
+      next: res =>{
+        console.log(res);
+        
+        this.updatePokemonsList(res);
+      }
+    })
   }
 
+  /**
+   * Carga los pokemons desde el servicio Backend   
+   */
   private async loadPokemons() {
     try {
       this.loadingPokemons = true;
       const res = await lastValueFrom(this.pokemonService.findAll());
-      this.loadingPokemons = false;
-      if (res.success == false) {
-        console.error(res);
-        return;
-      }
-      this.pokemons = res;
+      this.updatePokemonsList(res);
     } catch (error) {
       console.error(error);
     }
   }
-
+  private updatePokemonsList(requestResult: any){
+    this.loadingPokemons = false;
+    if (requestResult.success == false) {
+      console.error(requestResult);
+      return;
+    }
+    this.pokemons = requestResult;
+  }
   /**
    * Muestra el formulario y limpia valores actuales
    */
@@ -47,9 +60,8 @@ export class PokemonsComponent implements OnInit {
     this.showForm = false;
     setTimeout(() => {
       this.showForm = true;
-    });
+    }, 0);
     this.selectedPokemon = null;
-    this.formRequestSrv.requestNewPokemon.next();
   }
 
   /**
@@ -85,7 +97,7 @@ export class PokemonsComponent implements OnInit {
       );
       if (pokemonToDeleteIndex > -1) {
         this.pokemons.splice(pokemonToDeleteIndex, 1);
-        await lastValueFrom(this.pokemonService.delete(pokemon.id as number));        
+        await lastValueFrom(this.pokemonService.delete(pokemon.id as number));
       }
     }
   }
@@ -96,14 +108,19 @@ export class PokemonsComponent implements OnInit {
    */
   async onSavePokemon(pokemon: Pokemon) {
     try {
+      const isPokemonDuplicated = !this.selectedPokemon
+        ? this.validateDuplicatedPokemon(pokemon.name)
+        : false;
+      if (isPokemonDuplicated) {
+        // no guardar el pokemon si se encuentra duplicado
+        alert(`El Pokemon: ${pokemon.name} ya ha se encuentra registrado`);
+        return;
+      }
       // guardar un pokemon porque no esta seleccionado uno para editar
-      
       if (!this.selectedPokemon) {
-        await lastValueFrom(
-          this.pokemonService.create(pokemon)
-          );
-        }else{
-        await lastValueFrom(this.pokemonService.update(this.selectedPokemon.id as number,pokemon));        
+        await this.createPokemon(pokemon);
+      } else {
+        await this.updatePokemon(this.selectedPokemon.id as number, pokemon);
       }
       this.loadPokemons();
       this.cancelSavePokemon();
@@ -111,5 +128,33 @@ export class PokemonsComponent implements OnInit {
     } catch (error) {
       alert(error);
     }
+  }
+
+  /**
+   * Validar si un pokemon ya esta registrado
+   * @param pokemonName Nombre del pokemon a validar
+   * @returns true si el pokemon ya esta en el listado, false si no se encuentra al pokemon
+   */
+  private validateDuplicatedPokemon(pokemonName: string): boolean {
+    return !!this.pokemons.find((pokemon) => pokemon.name === pokemonName);
+  }
+
+  /**
+   * Crea un pokemon con el servicio de backend
+   * @param pokemon Datos del pokemon a crear
+   * @returns promesa con la respuesta del Backend
+   */
+  private createPokemon(pokemon: Pokemon) {
+    return lastValueFrom(this.pokemonService.create(pokemon));
+  }
+
+  /**
+   * Actualiza un pokemon con el servicio de backend
+   * @param pokemonId Id del pokemon a acutalizar
+   * @param pokemon Datos actualizados del pokemon
+   * @returns promesa con la respuesta del Backend
+   */
+  private updatePokemon(pokemonId: number, pokemon: Pokemon) {
+    return lastValueFrom(this.pokemonService.update(pokemonId, pokemon));
   }
 }

@@ -18,7 +18,7 @@ import { FormRangeInputComponent } from './components/form-range-input/form-rang
     PokemonFormComponent,
     ButtonComponent,
     FormTextInputComponent,
-    FormRangeInputComponent
+    FormRangeInputComponent,
   ],
   imports: [
     CommonModule,

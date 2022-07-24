@@ -14,8 +14,8 @@
 }
 .p-table td {
   color: var(--dark);
-  padding: 10px;
+  padding: 5px 10px;
 }
 .p-table-responsive{
-  overflow-x: scroll;
+  overflow-x: auto;
 }

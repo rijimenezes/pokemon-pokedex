@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { debounceTime, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { Pokemon } from '../models/pokemon.model';
 import { ApiService } from './api.service';
-const ID_AUTHOR = 1;
 
 @Injectable({
   providedIn: 'root',
 })
 export class PokemonService {
   stopRequest: Subject<void> = new Subject();
+  ID_AUTHOR = '1';
 
   constructor(private api: ApiService) {}
 
@@ -16,15 +16,21 @@ export class PokemonService {
     return searchingText.pipe(
       debounceTime(400),
       switchMap((text) => {
-        this.stopRequest.next();
-        return this.findAll(text);
+        this.stopRequest.next(); 
+        this.ID_AUTHOR = text;       
+        return this.findAll();
       })
     );
   }
 
-  findAll(searchingText?: string): Observable<Pokemon[] | any> {
+  /**
+   * 
+   * @param searchingText Busqueda
+   * @returns 
+   */
+  findAll(): Observable<Pokemon[] | any> {
     return this.api
-      .get('', { name: searchingText, idAuthor: ID_AUTHOR })
+      .get('', { idAuthor: this.ID_AUTHOR })
       .pipe(takeUntil(this.stopRequest));
   }
 
@@ -33,12 +39,12 @@ export class PokemonService {
   }
 
   create(pokemon: Pokemon) {
-    pokemon.idAuthor = ID_AUTHOR;
-    return this.api.post('', pokemon, { idAuthor: ID_AUTHOR });
+    pokemon.idAuthor = +this.ID_AUTHOR;
+    return this.api.post('', pokemon, { idAuthor: +this.ID_AUTHOR });
   }
 
   update(pokemonId: number, pokemon: Pokemon) {
-    pokemon.idAuthor = ID_AUTHOR;
+    pokemon.idAuthor = +this.ID_AUTHOR;
     return this.api.put(`${pokemonId}`, pokemon);
   }
 
