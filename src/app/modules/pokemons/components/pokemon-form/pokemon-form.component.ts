@@ -14,22 +14,54 @@ import { Pokemon } from 'src/app/core/models/pokemon.model';
   styleUrls: ['./pokemon-form.component.css'],
 })
 export class PokemonFormComponent implements OnChanges {
+  /**
+   * @Input pokemon variable del pokemon que se esta editando
+   */
   @Input() pokemon: Pokemon | null;
-
+  /**
+   * @Output cancel evento para cancelar la creacion/edicion de un pokemon
+   */
   @Output() cancel: EventEmitter<void> = new EventEmitter();
+  /**
+   * @Output save evento para crear/editar un pokemon
+   */
   @Output() save: EventEmitter<Pokemon> = new EventEmitter();
 
+  /**
+   * @var name formcontrol para validaciones de inputs
+   */
   name: FormControl;
+  /**
+   * @var image formcontrol para validaciones de inputs
+   */
   image: FormControl;
+  /**
+   * @var attack formcontrol para validaciones de inputs
+   */
   attack: FormControl;
+  /**
+   * @var defense formcontrol para validaciones de inputs
+   */
   defense: FormControl;
+  /**
+   * @var hp formcontrol para validaciones de inputs
+   */
   hp: FormControl;
+  /**
+   * @var type formcontrol para validaciones de inputs
+   */
   type: FormControl;
-
+  /**
+   * @var focusName bandera para aplicar focus al input del nombre del pokemon
+   */
   focusName = true;
-
+  /**
+   * @var savingPokemon bandera para deshabilitar boton al crear/editar pokemon y mostrar loading
+   */
   savingPokemon = false;
-
+  /**
+   * @var saveButtonIcon icono a mostrar en boton de guardar
+   */
   saveButtonIcon = 'ri-save-2-fill';
 
   constructor() {
@@ -62,6 +94,9 @@ export class PokemonFormComponent implements OnChanges {
     }
   }
 
+  /**
+   * Preparar formato del objeto del pokemon a guardar y emitirlo
+   */
   onSave() {
     const pokemon: Pokemon = {
       attack: this.attack.value,
@@ -71,7 +106,7 @@ export class PokemonFormComponent implements OnChanges {
       name: this.name.value,
       type: this.type.value,
     };
-    this.save.emit(pokemon)
+    this.save.emit(pokemon);
     this.savingPokemon = true;
     this.saveButtonIcon = 'ri-loader-4-line';
   }

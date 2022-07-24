@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { lastValueFrom, Observable, Subject } from 'rxjs';
+import { lastValueFrom, Subject } from 'rxjs';
 import { PokemonService } from 'src/app/core/backend-rest/pokemon.service';
 import { Pokemon } from 'src/app/core/models/pokemon.model';
 
@@ -9,12 +9,26 @@ import { Pokemon } from 'src/app/core/models/pokemon.model';
   styleUrls: ['./pokemons.component.css'],
 })
 export class PokemonsComponent implements OnInit {
+  /**
+   * @var pokemons arreglo con todos los pokemons
+   */
   pokemons: Pokemon[] = [];
+  /**
+   * @var selectedPokemon pokemon que se va a editar
+   */
   selectedPokemon: Pokemon | null = null;
+  /**
+   * @var showForm bandera para ocultar o mostrar el formulario del pokemon
+   */
   showForm = false;
-
+  /**
+   * @var loadingPokemons bandera para indicar si se estan cargando los pokemons, si se termino la peticion del backend la bandera pasa a false.
+   * Si la bandera esta en false y no hay pokemons en la lista solo se muestra el formulario
+   */
   loadingPokemons = true;
-
+  /**
+   * @var searchText para iniciar la busqueda en el backend y actualizar la bandera anterior en true
+   */
   searchText: Subject<string> = new Subject();
 
   constructor(private pokemonService: PokemonService) {}
@@ -25,6 +39,10 @@ export class PokemonsComponent implements OnInit {
     this.loadPokemonsBySearch();
   }
 
+  /**
+   * Inicia suscripcion para la carga de pokemons despues de una busqueda
+   * @returns Subscription
+   */
   loadPokemonsBySearch() {
     return this.pokemonService.search(this.searchText).subscribe({
       next: (res) => {
@@ -32,7 +50,10 @@ export class PokemonsComponent implements OnInit {
       },
     });
   }
-
+  /**
+   * Inicia suscripcion para cambiar de valor la bandera de loadingPokemons una vez iniciada la busqueda
+   * @returns Subscription
+   */
   setLoadingSearch() {
     return this.searchText.subscribe({
       next: (text) => (this.loadingPokemons = true),
@@ -52,6 +73,10 @@ export class PokemonsComponent implements OnInit {
     }
   }
 
+  /**
+   * Actualiza la lista de pokemons con informacion del backend
+   * @param requestResult resultado obtenido desde el backend
+   */
   updatePokemonsList(requestResult: any) {
     this.loadingPokemons = false;
     if (requestResult.success == false) {
@@ -59,6 +84,7 @@ export class PokemonsComponent implements OnInit {
     }
     this.pokemons = requestResult;
   }
+
   /**
    * Muestra el formulario y limpia valores actuales
    */

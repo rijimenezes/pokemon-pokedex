@@ -39,7 +39,10 @@ export class ButtonComponent {
     this.isDisabled = false;
   }
 
-  onClick(){
+  /**
+   * Emitir evento clic a los componentes padres
+   */
+  onClick() {
     this.handleClick.emit();
   }
 }
